@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { NotificationProvider } from "./services/context";
+import Notification from "./components/Notification";
+import AnimeDetails from "./pages/AnimeDetails";
+import NotFound from "./pages/NotFound";
+import Discover from "./pages/Discover";
+import Profile from "./pages/Profile";
+import Navbar from "./layouts/Header";
+import Search from "./pages/Search";
+import Home from "./pages/Home";
 
+const queryClient = new QueryClient();
+
+const App: React.FC = () => {
+    return (
+        <QueryClientProvider client={queryClient}>
+            <NotificationProvider>
+                <Router>
+                    <div className="min-h-screen">
+                        <Navbar />
+                        <Notification />
+                        <main className="">
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route
+                                    path="/anime/:id"
+                                    element={<AnimeDetails />}
+                                />
+                                <Route path="/search" element={<Search />} />
+                                <Route
+                                    path="/discover"
+                                    element={<Discover />}
+                                />
+                                <Route path="/profile" element={<Profile />} />
+                                <Route path="*" element={<NotFound />} />
+                            </Routes>
+                        </main>
+                    </div>
+                </Router>
+            </NotificationProvider>
+        </QueryClientProvider>
+    );
+};
 export default App;
