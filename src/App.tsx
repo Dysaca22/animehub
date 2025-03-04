@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 
@@ -24,7 +24,7 @@ const App: React.FC = () => {
                         <Notification />
                         <main className="">
                             <Routes>
-                                <Route path="/home" element={<Home />} />
+                                <Route path="/" element={<Home />} />
                                 <Route
                                     path="/anime/:id"
                                     element={<AnimeDetails />}
