@@ -3,7 +3,7 @@ import { Film } from 'lucide-react';
 import React, { useState } from "react";
 
 const NAV_ITEMS = [
-    { path: "/home", label: "Home" },
+    { path: "/", label: "Home" },
     { path: "/search", label: "Search" },
     { path: "/discover", label: "Discover" },
     { path: "/profile", label: "Profile" },
@@ -47,7 +47,7 @@ const Navbar: React.FC = () => {
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
                         <Link
-                            to="/home"
+                            to="/"
                             className="flex gap-4 items-center text-2xl font-bold text-foreground hover:text-primary transition-colors"
                         >
                             <Film className="h-6 w-6 text-primary" />
