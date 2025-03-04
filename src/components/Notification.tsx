@@ -17,7 +17,7 @@ const Notification: React.FC = () => {
     return notification ? (
         <div className="fixed bottom-4 right-4 bg-gray-800 text-white rounded-xl shadow-xl transition-all duration-300 transform hover:scale-102 z-[999999] overflow-hidden">
             <div className="flex flex-col gap-2 relative p-4">
-                <p className="text-sm">{notification}</p>
+                <p className="text-sm" dangerouslySetInnerHTML={{ __html: notification }} />
 
                 <div className="w-full h-1 bg-gray-700 absolute bottom-0 left-0">
                     <div

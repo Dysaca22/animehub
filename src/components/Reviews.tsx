@@ -41,10 +41,12 @@ const Reviews: React.FC<ReviewsProps> = ({ reviews }) => {
                         onClick={() => toggleShowMore(review.id)}
                     >
                         <div className="flex flex-row justify-between">
-                            <p className="font-bold">
-                                {new Date(
-                                    review.attributes.createdAt
-                                ).toLocaleDateString()}
+                            <p className="font-bold text-gray-200">
+                                {new Date(review.attributes.createdAt).toLocaleDateString(undefined, {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })}
                             </p>
                             <p className="text-gray-500 flex gap-2 items-center">
                                 <Star className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 fill-yellow-400" />

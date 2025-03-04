@@ -66,7 +66,7 @@ export const searchAnime = async (
     limit: number = 10,
     page: number = 1,
     textName: string = "",
-    categories: string[] = [],
+    genres: string[] = [],
     seasonYear: number | null = null,
     ageRating: string | null = null,
     minScore: number | null = null
@@ -79,8 +79,8 @@ export const searchAnime = async (
             },
             filter: {
                 text: textName || undefined,
-                categories:
-                    categories.length > 0 ? categories.join(",") : undefined,
+                genres:
+                    genres.length > 0 ? genres.join(",") : undefined,
                 seasonYear: seasonYear || undefined,
                 ageRating: ageRating || undefined,
                 averageRating: minScore ? `${minScore}..` : undefined,

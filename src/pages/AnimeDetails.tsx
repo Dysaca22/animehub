@@ -34,7 +34,7 @@ const AnimeDetails: React.FC = () => {
     const [showTrailer, setShowTrailer] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<TabType>("episodes");
-    const { notification, setNotification } = useNotification();
+    const { setNotification } = useNotification();
 
     const {
         data: anime,
@@ -62,7 +62,7 @@ const AnimeDetails: React.FC = () => {
                 // Add anime to the selected watchlist
                 addAnimeToList(listId, anime);
                 setNotification(
-                    `Successfully added "${anime.attributes.canonicalTitle}" to "${watchlist.name}" watchlist!`
+                    `Successfully added <strong>${anime.attributes.canonicalTitle}</strong> to <strong>${watchlist.name}</strong> watchlist!`
                 );
 
                 // Update the watchlists state to reflect the change
@@ -147,7 +147,7 @@ const AnimeDetails: React.FC = () => {
                                 </span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-300">
-                                <Tag className="w-4 h-4 sm:w-5 sm:h-5 text-primary-500" />
+                                <Tag className="w-4 h-4 sm:w-5 sm:h-5 text-primary-500 capitalize" />
                                 <span>Status: {anime.attributes.status}</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-300">
@@ -198,10 +198,19 @@ const AnimeDetails: React.FC = () => {
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
                             className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 gradient-text"
                         >
                             {anime.attributes.canonicalTitle}
                         </motion.h1>
+                        <motion.h2
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                            className="text-lg sm:text-xl text-gray-400 mb-4"
+                        >
+                            {anime.attributes.titles?.ja_jp}
+                        </motion.h2>
 
                         <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-6">
                             <div className="flex items-center gap-1 bg-gray-800 px-2 sm:px-3 py-1 rounded-full text-sm">
@@ -214,7 +223,7 @@ const AnimeDetails: React.FC = () => {
                                     ).toFixed(1)}
                                 </span>
                             </div>
-                            <div className="bg-gray-800 px-2 sm:px-3 py-1 rounded-full text-sm">
+                            <div className="bg-gray-800 px-2 sm:px-3 py-1 rounded-full text-sm capitalize">
                                 {anime.attributes.status}
                             </div>
                             <div className="bg-gray-800 px-2 sm:px-3 py-1 rounded-full text-sm">
@@ -231,7 +240,7 @@ const AnimeDetails: React.FC = () => {
                                     {anime.genres?.map((genre) => (
                                         <span
                                             key={genre.id}
-                                            className="px-2 sm:px-3 py-1 bg-gray-800 rounded-full text-xs sm:text-sm hover:bg-gray-700 transition-colors"
+                                            className="px-2 sm:px-3 py-1 bg-gray-800 rounded-full text-xs sm:text-sm hover:bg-gray-700 transition-colors capitalize"
                                         >
                                             {genre.attributes.name}
                                         </span>

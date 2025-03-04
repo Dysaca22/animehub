@@ -2,6 +2,13 @@ import { Link, useLocation } from "react-router-dom";
 import { Film } from 'lucide-react';
 import React, { useState } from "react";
 
+const NAV_ITEMS = [
+    { path: "/", label: "Home" },
+    { path: "/search", label: "Search" },
+    { path: "/discover", label: "Discover" },
+    { path: "/profile", label: "Profile" },
+];
+
 const Navbar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
@@ -12,6 +19,26 @@ const Navbar: React.FC = () => {
 
     const isActivePath = (path: string) => {
         return location.pathname === path;
+    };
+
+    const renderNavLink = (path: string, label: string, isMobile: boolean = false) => {
+        const baseStyles = isMobile
+            ? "block px-3 py-2 rounded-md text-base font-medium"
+            : "";
+        
+        return (
+            <Link
+                key={path}
+                to={path}
+                className={`${baseStyles} ${
+                    isActivePath(path)
+                        ? "text-primary"
+                        : "text-muted-foreground"
+                } hover:${isMobile ? "bg-accent" : ""} hover:text-primary transition-colors`}
+            >
+                {label}
+            </Link>
+        );
     };
 
     return (
@@ -29,47 +56,9 @@ const Navbar: React.FC = () => {
                     </div>
 
                     <div className="hidden md:flex md:items-center md:space-x-10">
-                        <Link
-                            to="/"
-                            className={`${
-                                isActivePath("/")
-                                    ? "text-primary"
-                                    : "text-muted-foreground"
-                            } hover:text-primary transition-colors`}
-                        >
-                            Home
-                        </Link>
-                        <Link
-                            to="/search"
-                            className={`${
-                                isActivePath("/search")
-                                    ? "text-primary"
-                                    : "text-muted-foreground"
-                            } hover:text-primary transition-colors`}
-                        >
-                            Search
-                        </Link>
-                        <Link
-                            to="/discover"
-                            className={`${
-                                isActivePath("/discover")
-                                    ? "text-primary"
-                                    : "text-muted-foreground"
-                            } hover:text-primary transition-colors`}
-                        >
-                            Discover
-                        </Link>
-                        <Link
-                            to="/profile"
-                            className={`${
-                                isActivePath("/profile")
-                                    ? "text-primary"
-                                    : "text-muted-foreground"
-                            } hover:text-primary transition-colors`}
-                        >
-                            Profile
-                        </Link>
+                        {NAV_ITEMS.map(({ path, label }) => renderNavLink(path, label))}
                     </div>
+
                     <div className="flex items-center md:hidden">
                         <button
                             onClick={toggleMenu}
@@ -111,49 +100,11 @@ const Navbar: React.FC = () => {
                 }`}
             >
                 <div className="px-2 pt-2 pb-3 space-y-1">
-                    <Link
-                        to="/"
-                        className={`block px-3 py-2 rounded-md text-base font-medium ${
-                            isActivePath("/")
-                                ? "text-primary"
-                                : "text-muted-foreground"
-                        } hover:bg-accent hover:text-primary transition-colors`}
-                    >
-                        Home
-                    </Link>
-                    <Link
-                        to="/search"
-                        className={`block px-3 py-2 rounded-md text-base font-medium ${
-                            isActivePath("/search")
-                                ? "text-primary"
-                                : "text-muted-foreground"
-                        } hover:bg-accent hover:text-primary transition-colors`}
-                    >
-                        Search
-                    </Link>
-                    <Link
-                        to="/discover"
-                        className={`block px-3 py-2 rounded-md text-base font-medium ${
-                            isActivePath("/discover")
-                                ? "text-primary"
-                                : "text-muted-foreground"
-                        } hover:bg-accent hover:text-primary transition-colors`}
-                    >
-                        Discover
-                    </Link>
-                    <Link
-                        to="/profile"
-                        className={`block px-3 py-2 rounded-md text-base font-medium ${
-                            isActivePath("/profile")
-                                ? "text-primary"
-                                : "text-muted-foreground"
-                        } hover:bg-accent hover:text-primary transition-colors`}
-                    >
-                        Profile
-                    </Link>
+                    {NAV_ITEMS.map(({ path, label }) => renderNavLink(path, label, true))}
                 </div>
             </div>
         </nav>
     );
 };
+
 export default Navbar;

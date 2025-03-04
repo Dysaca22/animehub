@@ -166,20 +166,20 @@ const Search: React.FC = () => {
                                                 <input
                                                     type="checkbox"
                                                     checked={selectedGenres.includes(
-                                                        genre.id
+                                                        genre.attributes.slug
                                                     )}
                                                     onChange={(e) => {
                                                         if (e.target.checked) {
                                                             setSelectedGenres([
                                                                 ...selectedGenres,
-                                                                genre.id,
+                                                                genre.attributes.slug,
                                                             ]);
                                                         } else {
                                                             setSelectedGenres(
                                                                 selectedGenres.filter(
-                                                                    (id) =>
-                                                                        id !==
-                                                                        genre.id
+                                                                    (slug) =>
+                                                                        slug !==
+                                                                        genre.attributes.slug
                                                                 )
                                                             );
                                                         }
@@ -212,7 +212,7 @@ const Search: React.FC = () => {
                                         className="w-full accent-primary-500 cursor-pointer"
                                     />
                                     <div className="text-center text-lg font-medium mt-3 text-primary-300">
-                                        {minScore ? `${minScore}%` : "Any"}
+                                        {minScore ? (minScore/10).toFixed(1) : "Any"}
                                     </div>
                                 </div>
 
@@ -246,11 +246,17 @@ const Search: React.FC = () => {
                             </div>
                         ) : (
                             <>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                                    {animes.map((anime) => (
-                                        <Card key={anime.id} anime={anime} />
-                                    ))}
-                                </div>
+                                {animes.length > 0 ? (
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                        {animes.map((anime) => (
+                                            <Card key={anime.id} anime={anime} />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="flex justify-center items-center h-64">
+                                        <p className="text-gray-400 text-lg">No anime found matching your criteria.</p>
+                                    </div>
+                                )}
 
                                 {/* Pagination */}
                                 {totalCount > ITEMS_PER_PAGE && (
