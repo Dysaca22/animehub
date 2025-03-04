@@ -24,7 +24,7 @@ const App: React.FC = () => {
                         <Notification />
                         <main className="">
                             <Routes>
-                                <Route path="/" element={<Home />} />
+                                <Route path="/home" element={<Home />} />
                                 <Route
                                     path="/anime/:id"
                                     element={<AnimeDetails />}
