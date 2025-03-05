@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Shuffle, Film, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import { randomAnime } from "../services/api";
 import { Anime } from "../types/anime";
@@ -189,16 +190,14 @@ const Discover: React.FC = () => {
                                             transition={{ delay: 0.6 }}
                                             className="flex justify-center"
                                         >
-                                            <a
-                                                href={`/anime-details?id=${anime.id}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
+                                            <Link
+                                                to={`/anime/${anime.id}`}
                                                 className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
                                             >
                                                 <span className="font-semibold">
                                                     View Details
                                                 </span>
-                                            </a>
+                                            </Link>
                                         </motion.div>
                                     </motion.div>
                                 </div>
