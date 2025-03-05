@@ -55,7 +55,6 @@ const AnimeDetails: React.FC = () => {
     }, []);
 
     const handleAddToList = (listId: string) => {
-        console.log("Selected Watchlist ID:", listId);
         if (listId && anime) {
             const watchlist = watchlists.find((list) => list.id === listId);
             if (watchlist) {

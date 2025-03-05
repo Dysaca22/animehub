@@ -27,15 +27,16 @@ const fetchAdditionalAnimeDetails = async (
             apiClient.get(`/anime/${animeId}/characters`),
         ]);
 
-        const charactersPromises = charactersResponse.data?.data.map(
+        const charactersPromises = charactersResponse.data?.data?.map(
             ({ id, attributes }: any) =>
                 apiClient.get(`/characters/${id}`).then((response) => ({
                     role: attributes.role,
                     ...response.data.data,
                 }))
         );
-        const characters = await Promise.all(charactersPromises || []);
-
+        const characters = await Promise.all(charactersPromises || [])
+            .then((chars) => chars.filter(Boolean))
+            .catch(() => []);
         return {
             genres: genresResponse.data.data,
             episodes: episodesResponse.data.data,
@@ -79,8 +80,7 @@ export const searchAnime = async (
             },
             filter: {
                 text: textName || undefined,
-                genres:
-                    genres.length > 0 ? genres.join(",") : undefined,
+                genres: genres.length > 0 ? genres.join(",") : undefined,
                 seasonYear: seasonYear || undefined,
                 ageRating: ageRating || undefined,
                 averageRating: minScore ? `${minScore}..` : undefined,
@@ -123,7 +123,6 @@ export const trendingAnime = async (): Promise<Anime[]> => {
         },
     });
 
-    console.log(response);
     const animeList = response.data.data;
     return fetchAnimeWithDetails(animeList);
 };
@@ -168,10 +167,15 @@ export const relatedAnimes = async (
 };
 
 export const randomAnime = async (): Promise<Anime> => {
+    const totalResponse = await apiClient.get("/anime");
+    const totalAnimes = totalResponse.data.meta.count;
+
     const response = await apiClient.get("/anime", {
         params: {
-            page: { limit: 1 },
-            sort: "random",
+            page: {
+                offset: Math.floor(Math.random() * totalAnimes),
+                limit: 1,
+            },
         },
     });
 
