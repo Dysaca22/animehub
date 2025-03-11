@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
                     isActivePath(path)
                         ? "text-primary"
                         : "text-muted-foreground"
-                } hover:${isMobile ? "bg-accent" : ""} hover:text-primary transition-colors`}
+                } hover:${isMobile ? "bg-accent" : ""} hover:text-primary transition-colors text-lg`}
             >
                 {label}
             </Link>

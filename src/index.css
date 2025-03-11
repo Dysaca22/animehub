@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -79,4 +80,9 @@
 
 *::-ms-scrollbar-button {
     display: none;
+}
+
+* {
+    font-family: 'Alumni Sans', sans-serif;
+    font-size: 18px;
 }
