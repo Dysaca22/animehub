@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/animehub/static/css/main.4a6b7185.css",
-    "main.js": "/animehub/static/js/main.091ba755.js",
+    "main.css": "/animehub/static/css/main.62487664.css",
+    "main.js": "/animehub/static/js/main.8389ca01.js",
     "index.html": "/animehub/index.html",
-    "main.4a6b7185.css.map": "/animehub/static/css/main.4a6b7185.css.map",
-    "main.091ba755.js.map": "/animehub/static/js/main.091ba755.js.map"
+    "main.62487664.css.map": "/animehub/static/css/main.62487664.css.map",
+    "main.8389ca01.js.map": "/animehub/static/js/main.8389ca01.js.map"
   },
   "entrypoints": [
-    "static/css/main.4a6b7185.css",
-    "static/js/main.091ba755.js"
+    "static/css/main.62487664.css",
+    "static/js/main.8389ca01.js"
   ]
 }
