@@ -2,6 +2,7 @@ import { FaPlus, FaTrash, FaList } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+import PersonalInfo from "../components/PersonalInfo";
 import { Watchlist } from "../types/profile";
 import { Card } from "../components/Card";
 
@@ -72,12 +73,20 @@ const Profile: React.FC = () => {
     return (
         <div className="min-h-screen mb-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <motion.h1
+            <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-2xl sm:text-3xl md:text-4xl font-bold mb-10 gradient-text flex items-center gap-3"
                 >
                     <FaList className="text-primary-500" /> Profile
+                </motion.h1>
+                <PersonalInfo></PersonalInfo>
+                <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-2xl sm:text-3xl md:text-4xl font-bold mb-10 gradient-text flex items-center gap-3"
+                >
+                    <FaList className="text-primary-500" /> Watchlists
                 </motion.h1>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -90,7 +99,7 @@ const Profile: React.FC = () => {
                         onChange={(e) => setNewListName(e.target.value)}
                         onKeyPress={handleKeyPress}
                         placeholder="New Watchlist Name"
-                        className="flex-1 px-4 py-3 rounded-xl bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all"
+                        className="flex-1 px-4 py-3 rounded-xl bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all max-w-[300px]"
                     />
                     <motion.button
                         whileHover={{ scale: 1.05 }}

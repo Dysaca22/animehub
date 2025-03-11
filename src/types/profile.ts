@@ -5,3 +5,8 @@ export interface Watchlist {
     name: string;
     animes: Anime[];
 }
+
+export interface InfoProfile {
+    name: string;
+    avatar: string;
+}
