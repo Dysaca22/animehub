@@ -1,20 +1,24 @@
 import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shuffle, Film, Star } from "lucide-react";
+import { Shuffle, Film, Star, Link as LinkIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import { randomAnime } from "../services/api";
+import { randomAnime, relatedAnimes } from "../services/api";
 import { Anime } from "../types/anime";
 
 const Discover: React.FC = () => {
     const [anime, setAnime] = useState<Anime | null>(null);
+    const [relatedAnimeList, setRelatedAnimeList] = useState<Anime[]>([]);
+    const [showRelated, setShowRelated] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [relatedLoading, setRelatedLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const handleRandomAnime = useCallback(async () => {
         try {
             setLoading(true);
             setError(null);
+            setShowRelated(false);
             const result = await randomAnime();
             await new Promise((resolve) => setTimeout(resolve, 3000));
             setAnime(result);
@@ -25,6 +29,29 @@ const Discover: React.FC = () => {
             setLoading(false);
         }
     }, []);
+
+    const handleShowRelated = useCallback(async () => {
+        if (!anime || !anime.genres) return;
+        try {
+            setRelatedLoading(true);
+            const genres = anime.genres.map(
+                (genre: any) => genre.attributes.name
+            );
+            const related = await relatedAnimes(genres, anime.id);
+            setRelatedAnimeList(related);
+            setShowRelated(true);
+        } catch (error) {
+            console.error("Error fetching related anime:", error);
+        } finally {
+            setRelatedLoading(false);
+        }
+    }, [anime]);
+
+    const handleRelatedAnimeClick = (relatedAnime: Anime) => {
+        setAnime(relatedAnime);
+        setShowRelated(false);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     return (
         <motion.main
@@ -88,7 +115,6 @@ const Discover: React.FC = () => {
                             }}
                         />
                     </motion.button>
-
                     {error && (
                         <motion.div
                             initial={{ opacity: 0, y: -20 }}
@@ -99,7 +125,6 @@ const Discover: React.FC = () => {
                             {error}
                         </motion.div>
                     )}
-
                     <AnimatePresence mode="wait">
                         {anime && (
                             <motion.div
@@ -188,19 +213,96 @@ const Discover: React.FC = () => {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.6 }}
-                                            className="flex justify-center"
+                                            className="flex justify-center gap-4"
                                         >
                                             <Link
                                                 to={`/anime/${anime.id}`}
-                                                className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+                                                className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-colors"
                                             >
                                                 <span className="font-semibold">
                                                     View Details
                                                 </span>
                                             </Link>
+                                            <button
+                                                onClick={handleShowRelated}
+                                                disabled={relatedLoading}
+                                                className="inline-flex items-center px-6 py-3 bg-secondary text-secondary-foreground rounded-xl hover:bg-secondary/90 transition-colors outline-none"
+                                            >
+                                                {relatedLoading ? (
+                                                    <Film className="w-5 h-5 mr-2 animate-spin" />
+                                                ) : (
+                                                    <LinkIcon className="w-5 h-5 mr-2" />
+                                                )}
+                                                <span className="font-semibold">
+                                                    {relatedLoading
+                                                        ? "Loading..."
+                                                        : "Show Related"}
+                                                </span>
+                                            </button>
                                         </motion.div>
                                     </motion.div>
                                 </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                    <AnimatePresence>
+                        {showRelated && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="mt-12 flex flex-wrap gap-4 justify-center"
+                            >
+                                {relatedAnimeList.map((relatedAnime, index) => (
+                                    <motion.div
+                                        key={relatedAnime.id}
+                                        initial={{
+                                            scale: 0,
+                                            opacity: 0,
+                                            y: 50,
+                                        }}
+                                        animate={{
+                                            scale: 1,
+                                            opacity: 1,
+                                            y: 0,
+                                        }}
+                                        transition={{
+                                            duration: 0.5,
+                                            delay: index * 0.1,
+
+                                            type: "spring",
+                                            stiffness: 100,
+                                        }}
+                                        className="relative group"
+                                    >
+                                        <button
+                                            onClick={() =>
+                                                handleRelatedAnimeClick(
+                                                    relatedAnime
+                                                )
+                                            }
+                                            className="block w-24 h-24 rounded-full overflow-hidden hover:scale-110 transition-transform"
+                                        >
+                                            <img
+                                                src={
+                                                    relatedAnime.attributes
+                                                        ?.posterImage?.small
+                                                }
+                                                alt={
+                                                    relatedAnime.attributes
+                                                        ?.canonicalTitle
+                                                }
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </button>
+                                        <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-2 py-1 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                                            {
+                                                relatedAnime.attributes
+                                                    ?.canonicalTitle
+                                            }
+                                        </div>
+                                    </motion.div>
+                                ))}
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -209,5 +311,4 @@ const Discover: React.FC = () => {
         </motion.main>
     );
 };
-
 export default Discover;
