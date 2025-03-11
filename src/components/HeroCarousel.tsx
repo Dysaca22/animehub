@@ -88,7 +88,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ animes, className }) => {
                                     asChild
                                     size="lg"
                                     variant="gradient"
-                                    className="hover:scale-105 transition-transform"
+                                    className="hover:scale-105 transition-transform rounded-xl"
                                 >
                                     <Link to={`/anime/${anime.id}`}>
                                         <Play className="mr-2 h-5 w-5" />
@@ -104,7 +104,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ animes, className }) => {
             <Button
                 variant="ghost"
                 size="icon"
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/30 hover:bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/30 hover:bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"
                 onClick={scrollPrev}
                 aria-label="Previous slide"
             >
@@ -114,7 +114,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ animes, className }) => {
             <Button
                 variant="ghost"
                 size="icon"
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/30 hover:bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/30 hover:bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"
                 onClick={scrollNext}
                 aria-label="Next slide"
             >
